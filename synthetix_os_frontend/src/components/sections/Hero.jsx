@@ -1,121 +1,88 @@
 import React, { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { Activity, Shield } from 'lucide-react'
 
 const Hero = () => {
   const [step, setStep] = useState(0)
   const thinkingSteps = [
-    'Checking inbox...',
-    'Understanding context...',
-    'Accessing Knowledge System...',
-    'Decision: Reply generated.',
-    'Task completed'
+    'INITIALIZING_KERNEL...',
+    'SCANNING_INBOX_VECTORS...',
+    'CONTEXT_RETRIEVAL_ACTIVE',
+    'DECISION: WORKFLOW_TRIGGERED',
+    'STATUS: 200_OK'
   ]
 
   useEffect(() => {
     const interval = setInterval(() => {
       setStep(prev => (prev + 1) % thinkingSteps.length)
-    }, 2000)
+    }, 2500)
     return () => clearInterval(interval)
   }, [])
 
   return (
-    <div className='min-h-screen bg-[#030303] text-white selection:bg-purple-500/30 overflow-hidden relative'>
-      {/* Background Visuals */}
-      <div className='absolute top-0 left-0 w-full h-full overflow-hidden -z-10'>
-        <div className='absolute top-[-10%] left-[-10%] w-125 h-125 bg-purple-600/20 rounded-full blur-[120px] animate-pulse' />
-        <div className='absolute bottom-[-10%] right-[-10%] w-125 h-125 bg-blue-600/10 rounded-full blur-[120px]' />
-        <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 brightness-100 contrast-150"></div>
-        <div
-          className='absolute inset-0'
-          style={{
-            backgroundImage:
-              'radial-gradient(circle at 2px 2px, rgba(255,255,255,0.05) 1px, transparent 0)',
-            backgroundSize: '40px 40px'
-          }}
-        ></div>
-      </div>
+    <div className='min-h-screen bg-[#050505] text-zinc-400 font-mono selection:bg-emerald-500/30 overflow-hidden relative pt-20'>
+      {/* Background Grids */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_2px_2px,_rgba(24,24,27,1)_1px,_transparent_0)] bg-[size:40px_40px] opacity-30" />
 
-      {/* Main Content */}
-      <main className='max-w-7xl mx-auto px-10 pt-20 grid lg:grid-cols-2 gap-16 items-center'>
-        {/* Left Side: Copy */}
-        <motion.div
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8 }}
-        >
-          <span className='text-purple-400 font-medium tracking-widest text-xs uppercase'>
-            Your AI Workforce, On Demand
-          </span>
-          <h1 className='text-7xl font-semibold tracking-tight leading-[1.1] mt-4'>
+      <main className='max-w-7xl mx-auto px-10 pt-24 grid lg:grid-cols-2 gap-16 items-center relative z-10'>
+        <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.8 }}>
+          <div className='flex items-center gap-2 text-emerald-500 mb-6'>
+            <Activity size={14} className="animate-pulse" />
+            <span className='font-bold tracking-[0.4em] text-[10px] uppercase'>Uplink_Established</span>
+          </div>
+          
+          <h1 className='text-6xl md:text-8xl font-black text-white tracking-tighter leading-[0.9] uppercase'>
             Hire Digital <br />
-            <span className='bg-clip-text text-transparent bg-linear-to-r from-purple-400 to-blue-500'>
-              Employees.
-            </span>
+            <span className='text-zinc-800 outline-text'>Employees.</span>
           </h1>
-          <p className='mt-8 text-lg text-gray-400 max-w-md leading-relaxed'>
-            Build AI agents that understand context, make decisions, and execute
-            workflows—so you can focus on what matters.
+
+          <p className='mt-8 text-sm text-zinc-500 max-w-md leading-relaxed border-l border-zinc-800 pl-6'>
+            Deploy autonomous agents that interface with your kernel, process natural language, 
+            and execute cross-platform protocols.
           </p>
 
-          <div className='mt-10 flex items-center gap-4'>
-            <button className='bg-white text-black px-8 py-4 rounded-full font-medium flex items-center gap-2 hover:bg-gray-200 transition-all'>
-              Watch Demo
+          <div className='mt-10 flex flex-wrap items-center gap-4'>
+            <button className='bg-white text-black px-8 py-4 text-[11px] font-black uppercase tracking-widest hover:bg-emerald-500 transition-all'>
+              Initialize_System
             </button>
-            <button className='bg-white/5 border border-white/10 backdrop-blur-md px-8 py-4 rounded-full font-medium hover:bg-white/10 transition-all'>
-              Explore Features
+            <button className='border border-zinc-800 px-8 py-4 text-[11px] font-black uppercase tracking-widest hover:border-zinc-500 transition-all'>
+              View_Documentation
             </button>
           </div>
         </motion.div>
 
-        {/* Right Side: Visualizer */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1 }}
-          className='relative'
-        >
-          {/* Glassmorphism Card */}
-          <div className='relative z-10 bg-white/5 border border-white/10 backdrop-blur-2xl rounded-2xl p-8 shadow-2xl'>
-            <div className='flex items-center gap-2 mb-6'>
-              <div className='w-3 h-3 rounded-full bg-red-500/50' />
-              <div className='w-3 h-3 rounded-full bg-yellow-500/50' />
-              <div className='w-3 h-3 rounded-full bg-green-500/50' />
-              <span className='ml-4 text-xs text-gray-500 font-mono italic'>
-                Synthetix Agent v1.0.4
-              </span>
+        {/* The Visualizer Card */}
+        <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className='relative'>
+          <div className='bg-zinc-900/40 border border-zinc-800 p-8 shadow-2xl relative'>
+            <div className='absolute top-0 right-0 p-4 opacity-10 text-emerald-500'><Shield size={100} /></div>
+            
+            <div className='flex items-center justify-between mb-8 pb-4 border-b border-zinc-800/50'>
+               <div className='flex gap-2'>
+                 <div className='w-2 h-2 bg-zinc-800' /><div className='w-2 h-2 bg-zinc-800' /><div className='w-2 h-2 bg-zinc-800' />
+               </div>
+               <span className='text-[10px] text-zinc-600'>AGENT_ID: SYNTH_01</span>
             </div>
 
-            {/* AI Thinking Terminal */}
-            <div className='bg-black/40 rounded-lg p-6 font-mono text-sm border border-white/5 min-h-50 flex flex-col justify-center'>
+            <div className='bg-black border border-zinc-800 p-6 min-h-[160px] flex flex-col justify-center relative'>
+              <div className="absolute top-2 left-2 w-1 h-1 bg-emerald-500 animate-ping" />
               <AnimatePresence mode='wait'>
-                <motion.p
-                  key={step}
-                  initial={{ opacity: 0, y: 5 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -5 }}
-                  className='text-purple-300'
-                >
-                  <span className='text-gray-600 mr-2'>{'>'}</span>
-                  {thinkingSteps[step]}
+                <motion.p key={step} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className='text-emerald-500 text-xs'>
+                  <span className='text-zinc-700 mr-3'>[$]</span> {thinkingSteps[step]}
                 </motion.p>
               </AnimatePresence>
             </div>
 
-            {/* Mock Workflow UI Elements */}
             <div className='mt-6 grid grid-cols-2 gap-4'>
-              <div className='p-3 bg-white/5 rounded-lg border border-white/5 text-[10px] text-gray-400'>
-                <p className='text-blue-400 mb-1'>Celery Worker</p>
-                Status: <span className='text-green-500'>Active</span>
+              <div className='p-4 bg-zinc-950 border border-zinc-800 text-[10px] uppercase tracking-widest'>
+                <p className='text-zinc-600 mb-1'>Handshake</p>
+                <span className='text-emerald-500'>SECURE</span>
               </div>
-              <div className='p-3 bg-white/5 rounded-lg border border-white/5 text-[10px] text-gray-400'>
-                <p className='text-purple-400 mb-1'>RAG Context</p>
-                Memory: <span className='text-white'>84% Synced</span>
+              <div className='p-4 bg-zinc-950 border border-zinc-800 text-[10px] uppercase tracking-widest'>
+                <p className='text-zinc-600 mb-1'>Load</p>
+                <span className='text-white'>14.2%</span>
               </div>
             </div>
           </div>
-
-          {/* Decorative Floating Orb */}
-          <div className='absolute -bottom-10 -right-10 w-32 h-32 bg-blue-500/30 rounded-full blur-3xl' />
         </motion.div>
       </main>
     </div>

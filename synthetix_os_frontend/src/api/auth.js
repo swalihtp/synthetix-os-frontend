@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const API = axios.create({
-  baseURL: 'http://127.0.0.1:8000/api'
+  baseURL: import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8000/api'
 })
 
 API.interceptors.request.use(config => {
@@ -14,6 +14,10 @@ API.interceptors.request.use(config => {
   return config
 })
 
+const refreshAPI = axios.create({
+  baseURL: import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8000/api'
+})
+
 API.interceptors.response.use(
   response => response,
   async error => {
@@ -24,21 +28,30 @@ API.interceptors.response.use(
       error.response.status === 401 &&
       !originalRequest._retry
     ) {
+      if (originalRequest.url.includes('auth/refresh')) {
+        return Promise.reject(error)
+      }
+
       originalRequest._retry = true
 
-      try {
-        const refresh = localStorage.getItem('refresh')
+      const refresh = localStorage.getItem('refresh')
 
-        const res = await axios.post(
-          'http://127.0.0.1:8000/api/token/refresh/',
-          { refresh }
-        )
+      if (!refresh) {
+        localStorage.clear()
+        window.location.href = '/login'
+        return Promise.reject(error)
+      }
+
+      try {
+        const res = await refreshAPI.post('auth/refresh/', { refresh })
 
         const newAccess = res.data.access
 
         localStorage.setItem('access', newAccess)
 
-        API.defaults.headers.Authorization = `Bearer ${newAccess}`
+        API.defaults.headers.common['Authorization'] = `Bearer ${newAccess}`
+
+        originalRequest.headers = originalRequest.headers || {}
         originalRequest.headers.Authorization = `Bearer ${newAccess}`
 
         return API(originalRequest)
@@ -46,6 +59,7 @@ API.interceptors.response.use(
         console.log('Refresh token expired')
         localStorage.clear()
         window.location.href = '/login'
+        return Promise.reject(err)
       }
     }
 
@@ -72,9 +86,24 @@ export const resetPassword = data => {
 export const googleLogin = data => {
   return API.post('auth/auth/google/', data)
 }
-export const verifyMFA = (data) => {
+export const verifyMFA = data => {
+  return API.post('auth/mfa/setup/verify/', data)
+}
+export const verifyMFAAfterEnablingAndAfterFirstLogout = data => {
   return API.post('auth/mfa/login/verify/', data)
 }
 export const enableMFA = () => {
   return API.post('auth/mfa/enable/')
+}
+
+export const getMyProfile = () => {
+  return API.get('auth/me/')
+}
+
+export const analyzeResumeExecution = formData => {
+  return API.post('/workflows/resume-executions/analyze/', formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data'
+    }
+  })
 }

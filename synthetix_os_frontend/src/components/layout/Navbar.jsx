@@ -2,81 +2,38 @@ import { useState } from 'react'
 import { Menu, X } from 'lucide-react'
 import { Link } from 'react-router-dom'
 
-export default function Navbar () {
+export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
 
   return (
-    <nav className='fixed top-0 left-0 w-full z-50 backdrop-blur-lg bg-black/60 border-b border-gray-800'>
+    <nav className='fixed top-0 left-0 w-full z-100 bg-[#050505]/80 backdrop-blur-md border-b border-zinc-900'>
       <div className='max-w-7xl mx-auto px-6 py-4 flex items-center justify-between'>
-        {/* Logo */}
-        <div className='flex items-center gap-2'>
-          <div className='w-8 h-8 bg-linear-to-r from-purple-500 to-blue-500 rounded-lg' />
-          <span className='text-white font-bold text-lg'>Synthetix OS</span>
+        <div className='flex items-center gap-3'>
+          <div className='w-8 h-8 bg-zinc-900 border border-emerald-500/50 flex items-center justify-center'>
+            <img src="gemini-svg.svg" alt="" />
+          </div>
+          <span className='text-white font-black text-sm uppercase tracking-[0.3em]'>Synthetix_OS</span>
         </div>
 
-        {/* Desktop Menu */}
-        <div className='hidden md:flex items-center gap-8 text-gray-300'>
-          <a href='#features' className='hover:text-white transition'>
-            Features
-          </a>
-          <a href='#tools' className='hover:text-white transition'>
-            Integrations
-          </a>
-          <a href='#pricing' className='hover:text-white transition'>
-            Pricing
-          </a>
+        <div className='hidden md:flex items-center gap-10 text-[10px] font-mono uppercase tracking-widest text-zinc-500'>
+          <a href='#features' className='hover:text-emerald-500 transition-colors'>[ Features ]</a>
+          <a href='#tools' className='hover:text-emerald-500 transition-colors'>[ Integrations ]</a>
+          <a href='#pricing' className='hover:text-emerald-500 transition-colors'>[ Pricing ]</a>
         </div>
 
-        {/* Desktop Buttons */}
-        <div className='hidden md:flex items-center gap-4'>
-          <Link
-            to='/login'
-            className='text-gray-300 hover:text-white transition'
-          >
-            Login
+        <div className='hidden md:flex items-center gap-6'>
+          <Link to='/login' className='text-[10px] font-mono uppercase tracking-widest text-zinc-500 hover:text-white transition'>
+            _Login
           </Link>
-
-          <button className='bg-linear-to-r from-purple-500 to-blue-500 px-5 py-2 rounded-xl text-white font-semibold hover:opacity-90 transition'>
-            Get Started
+          <button className='bg-emerald-600/10 border border-emerald-500/50 px-5 py-2 text-emerald-500 text-[10px] font-black uppercase tracking-widest hover:bg-emerald-500 hover:text-black transition-all'>
+            Deploy_Now
           </button>
         </div>
 
-        {/* Mobile Menu Button */}
-        <button
-          className='md:hidden text-white'
-          onClick={() => setIsOpen(!isOpen)}
-        >
-          {isOpen ? <X /> : <Menu />}
+        <button className='md:hidden text-zinc-500' onClick={() => setIsOpen(!isOpen)}>
+          {isOpen ? <X size={20} /> : <Menu size={20} />}
         </button>
       </div>
-
-      {/* Mobile Menu */}
-      {isOpen && (
-        <div className='md:hidden px-6 pb-6 space-y-4 bg-black border-t border-gray-800'>
-          <a href='#features' className='block text-gray-300 hover:text-white'>
-            Features
-          </a>
-          <a href='#tools' className='block text-gray-300 hover:text-white'>
-            Integrations
-          </a>
-          <a href='#pricing' className='block text-gray-300 hover:text-white'>
-            Pricing
-          </a>
-
-          <div className='pt-4 border-t border-gray-800'>
-            <Link
-              to='/login'
-              className='block w-full text-left text-gray-300 hover:text-white mb-3'
-            >
-              Login
-            </Link>
-
-            <button className='w-full bg-linear-to-r from-purple-500 to-blue-500 py-2 rounded-xl text-white font-semibold'>
-              Get Started
-            </button>
-          </div>
-        </div>
-      )}
     </nav>
   )
 }

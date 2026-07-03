@@ -11,9 +11,8 @@ function Home(){
         <>
             <Navbar/>
             <Hero/>
-            <Features/>
             <Tools/>
-            <AutomationCards/>
+            <Features/>
             <CTA/>
             <Footer/>
         </>
