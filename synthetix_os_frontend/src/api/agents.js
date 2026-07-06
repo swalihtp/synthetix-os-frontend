@@ -22,7 +22,7 @@ export const updateAgent = (id, data) => {
 
 // Delete agent
 export const deleteAgent = id => {
-  return API.delete(`/agent /${id}/`)
+  return API.delete(`/agent/${id}/`)
 }
 
 export const getBuiltInAgent = (searchOrParams = {}) => {

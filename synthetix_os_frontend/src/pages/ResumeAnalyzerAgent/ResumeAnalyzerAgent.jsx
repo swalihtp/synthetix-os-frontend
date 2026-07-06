@@ -4,6 +4,7 @@ import { ShieldCheck } from 'lucide-react'
 import Sidebar from '@/components/dashboard/Sidebar'
 import Topbar from '@/components/dashboard/Topbar'
 import { analyzeResumeExecution } from '@/api/auth'
+import { deleteAgent } from '@/api/agents'
 import { getResumeExecutions } from '@/api/resumeExecutions'
 import PastExecutions from './components/PastExecution'
 import ResultModal from './components/ResultModal'
@@ -32,6 +33,7 @@ export default function ResumeAnalyzer() {
   const [message, setMessage] = useState('')
   const [taskStatus, setTaskStatus] = useState('idle')
   const [connected, setConnected] = useState(false)
+  const [deletingAgent, setDeletingAgent] = useState(false)
   const fileInputRef = useRef(null)
   const stageTimerRef = useRef(null)
   const wsRef = useRef(null)
@@ -341,6 +343,31 @@ export default function ResumeAnalyzer() {
     navigate(`/resume-analyzer/executions/${execution.id}`)
   }
 
+  const handleDeleteAgent = async () => {
+    if (!id || deletingAgent) return
+
+    const confirmed = window.confirm(
+      'Delete this agent? This action cannot be undone.'
+    )
+
+    if (!confirmed) return
+
+    setDeletingAgent(true)
+
+    try {
+      await deleteAgent(id)
+      navigate('/agents', { replace: true })
+    } catch (err) {
+      setError(
+        err?.response?.data?.message ||
+          err?.response?.data?.detail ||
+          'Failed to delete agent.'
+      )
+    } finally {
+      setDeletingAgent(false)
+    }
+  }
+
   return (
     <div className='flex bg-[#050505] min-h-screen text-zinc-300 font-mono'>
       <Sidebar />
@@ -349,7 +376,7 @@ export default function ResumeAnalyzer() {
         <Topbar />
 
         <main className='min-h-screen bg-[#050505] text-zinc-300 font-mono p-6 lg:p-10 space-y-8'>
-          <AgentHeader />
+          <AgentHeader onDelete={handleDeleteAgent} />
           {message ? (
             <div
               className={`border px-4 py-3 text-sm ${

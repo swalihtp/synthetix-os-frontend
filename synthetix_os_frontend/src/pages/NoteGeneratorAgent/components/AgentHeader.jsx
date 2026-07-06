@@ -1,6 +1,6 @@
 import { FileText } from 'lucide-react'
 import AgentOptionsMenu from './Agentoptionsmenu '
-function AgentHeader({ onEdit, onDelete }) {
+function AgentHeader({ onDelete }) {
   return (
     <section className='border-b border-zinc-900 pb-6'>
       <div className='flex items-center gap-3 mb-3'>
@@ -16,7 +16,7 @@ function AgentHeader({ onEdit, onDelete }) {
             action items.
           </p>
         </div>
-        <AgentOptionsMenu onEdit={onEdit} onDelete={onDelete} />
+        <AgentOptionsMenu onDelete={onDelete} />
       </div>
       <div className='flex items-center gap-3 text-xs mt-2'>
         <span className='px-3 py-1 bg-zinc-900 border border-zinc-800 text-violet-400'>

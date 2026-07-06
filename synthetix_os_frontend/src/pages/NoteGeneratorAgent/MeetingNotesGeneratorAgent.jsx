@@ -7,6 +7,7 @@ import PastExecutions from './components/PastExecution'
 import Sidebar from '@/components/dashboard/Sidebar'
 import Topbar from '@/components/dashboard/Topbar'
 import StatsBar from './components/StatsBar'
+import { deleteAgent } from '@/api/agents'
 import { createMeetingNotesExecution, getMeetingSummaryExecutions } from '@/api/meetingSummaryExecutions'
 import {
   normalizeMeetingSummaryExecutionsPaginatedResponse
@@ -27,6 +28,7 @@ export default function MeetingNotesGenerator () {
   const [taskStatus, setTaskStatus] = useState('idle')
   const [connected, setConnected] = useState(false)
   const [formResetVersion, setFormResetVersion] = useState(0)
+  const [deletingAgent, setDeletingAgent] = useState(false)
   const wsRef = useRef(null)
   const retryTimeoutRef = useRef(null)
   const loadingRef = useRef(false)
@@ -300,6 +302,31 @@ export default function MeetingNotesGenerator () {
     navigate(`/meeting-notes-generator/executions/${execution.id}`)
   }
 
+  const handleDeleteAgent = async () => {
+    if (!id || deletingAgent) return
+
+    const confirmed = window.confirm(
+      'Delete this agent? This action cannot be undone.'
+    )
+
+    if (!confirmed) return
+
+    setDeletingAgent(true)
+
+    try {
+      await deleteAgent(id)
+      navigate('/agents', { replace: true })
+    } catch (err) {
+      setError(
+        err?.response?.data?.message ||
+          err?.response?.data?.detail ||
+          'Failed to delete agent.'
+      )
+    } finally {
+      setDeletingAgent(false)
+    }
+  }
+
   return (
     <div className='flex bg-[#050505] min-h-screen text-zinc-300 font-mono'>
       <Sidebar />
@@ -308,7 +335,7 @@ export default function MeetingNotesGenerator () {
         <Topbar />
 
         <main className='min-h-screen bg-[#050505] text-zinc-300 font-mono p-6 lg:p-10 space-y-8'>
-          <AgentHeader />
+          <AgentHeader onDelete={handleDeleteAgent} />
 
           {message ? (
             <div

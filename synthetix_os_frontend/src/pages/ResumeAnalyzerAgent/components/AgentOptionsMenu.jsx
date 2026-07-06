@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
-import { MoreVertical, Pencil, Trash2 } from 'lucide-react'
+import { MoreVertical, Trash2 } from 'lucide-react'
 
-function AgentOptionsMenu ({ onEdit, onDelete }) {
+function AgentOptionsMenu ({ onDelete }) {
   const [open, setOpen] = useState(false)
   const menuRef = useRef(null)
 
