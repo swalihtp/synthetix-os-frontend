@@ -5,7 +5,7 @@ export default function ProfileHeader () {
   const user = useSelector(state => state.auth.user)
 
   return (
-    <div className='rounded-3xl border border-zinc-800/80 bg-zinc-900/70 p-8 backdrop-blur-xl'>
+    <div className='rounded-3xl border border-zinc-800/80 bg-zinc-900/70 p-5 backdrop-blur-xl sm:p-8'>
       <div className='flex flex-col gap-6 sm:flex-row sm:items-center'>
         <div className='relative'>
           <div className='absolute inset-0 rounded-3xl bg-gradient-to-br from-violet-500/20 to-cyan-500/10 blur-lg' />
@@ -13,13 +13,13 @@ export default function ProfileHeader () {
           <img
             src={user.profile_image || '/avatar-placeholder.png'}
             alt={user.full_name}
-            className='relative h-24 w-24 rounded-3xl border border-zinc-700 object-cover'
+            className='relative h-20 w-20 rounded-3xl border border-zinc-700 object-cover sm:h-24 sm:w-24'
           />
         </div>
 
         <div className='min-w-0 flex-1'>
           <div className='flex flex-wrap items-center gap-3'>
-            <h2 className='truncate text-3xl font-semibold tracking-tight text-zinc-100'>
+            <h2 className='truncate text-2xl font-semibold tracking-tight text-zinc-100 sm:text-3xl'>
               {user.full_name}
             </h2>
 
@@ -42,7 +42,7 @@ export default function ProfileHeader () {
 
           <p className='mt-3 text-sm text-zinc-500'>{user.email}</p>
 
-          <div className='mt-5 flex flex-wrap gap-6 border-t border-zinc-800/80 pt-5'>
+          <div className='mt-5 grid gap-4 border-t border-zinc-800/80 pt-5 sm:grid-cols-2 sm:gap-6'>
             <div>
               <p className='text-xs uppercase tracking-wide text-zinc-600'>
                 Account Status

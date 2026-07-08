@@ -13,14 +13,14 @@ export default function ProfileForm () {
     defaultValues: user
   })
 
-  const onSubmit = async values => {
+  const onSubmit = async () => {
     // PUT /profile
   }
 
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className='rounded-3xl border border-zinc-800/80 bg-zinc-900/70 p-8 backdrop-blur-xl'
+      className='rounded-3xl border border-zinc-800/80 bg-zinc-900/70 p-5 backdrop-blur-xl sm:p-8'
     >
       <div className='flex items-start gap-4'>
         <div className='rounded-2xl border border-zinc-800 bg-zinc-900 p-3'>
@@ -28,7 +28,7 @@ export default function ProfileForm () {
         </div>
 
         <div>
-          <h2 className='text-xl font-semibold tracking-tight text-zinc-100'>
+          <h2 className='text-lg font-semibold tracking-tight text-zinc-100 sm:text-xl'>
             Personal Information
           </h2>
 
@@ -74,7 +74,7 @@ export default function ProfileForm () {
         </div>
       </div>
 
-      <div className='mt-8 flex items-center justify-between border-t border-zinc-800 pt-6'>
+      <div className='mt-8 flex flex-col gap-4 border-t border-zinc-800 pt-6 sm:flex-row sm:items-center sm:justify-between'>
         <p className='text-xs text-zinc-600'>
           Changes are saved securely to your account.
         </p>

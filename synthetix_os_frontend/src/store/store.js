@@ -14,6 +14,7 @@ import userRegistryReducer from './slices/userRegistrySlice';
 import userReducer from './slices/userRegistrySlice2';
 import builtInAgentsReducer from './slices/builtInAgentsSlice'
 import dashboardReducer from './slices/dashboardSlice'
+import uiReducer from './slices/uiSlice'
 
 
 // Persist config - automatically saves auth to localStorage
@@ -39,7 +40,8 @@ reducer: {
   userRegistry: userRegistryReducer,
   users: userReducer,
   builtInAgents: builtInAgentsReducer,
-  dashboard: dashboardReducer
+  dashboard: dashboardReducer,
+  ui: uiReducer
 },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

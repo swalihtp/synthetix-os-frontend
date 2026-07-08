@@ -13,9 +13,6 @@ const accentMap = {
 export default function ApplicationCard ({ application }) {
   const Icon = application.icon || ArrowUpRight
 
-  console.log('application',application);
-  
-
   return (
     <Link
       to={'/system-agents' || '/agents'}

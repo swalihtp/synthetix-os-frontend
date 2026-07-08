@@ -7,7 +7,7 @@ export default function AdminCard () {
   if (user.role !== 'Admin') return null
 
   return (
-    <div className='rounded-3xl border border-zinc-800 bg-zinc-900/70 p-6'>
+    <div className='rounded-3xl border border-zinc-800 bg-zinc-900/70 p-5 sm:p-6'>
       <div className='flex items-start gap-4'>
         <div className='rounded-2xl bg-zinc-800 p-3'>
           <Users className='h-5 w-5 text-violet-400' />
