@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { Bell, Search, User, LogOut } from 'lucide-react'
+import { Bell, Menu, Search, User, LogOut } from 'lucide-react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import {
@@ -9,7 +9,7 @@ import {
   selectIsAuthenticated
 } from '../../store/slices/authSlice'
 
-export default function Topbar () {
+export default function Topbar ({ onMenuClick }) {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const user = useSelector(selectUser)
@@ -58,39 +58,49 @@ export default function Topbar () {
   }
 
   return (
-    <div className='flex justify-between items-center bg-[#050505] border-b border-zinc-900 px-8 py-4 sticky top-0 z-[60]'>
-      {/* Search */}
-      <div className='flex items-center bg-zinc-950 border border-zinc-800 px-4 py-2 w-1/3 focus-within:border-emerald-500 transition-colors'>
-        <Search size={14} className='text-zinc-500' />
-        <input
-          className='bg-transparent outline-none ml-3 w-full text-xs font-mono text-zinc-300 placeholder:text-zinc-700 uppercase tracking-widest'
-          placeholder='SEARCH_SYSTEM...'
-        />
-      </div>
+    <div className='sticky top-0 z-[60] border-b border-zinc-900 bg-[#050505] px-4 py-3 sm:px-6 lg:px-8 lg:py-4'>
+      <div className='flex flex-col gap-3 md:flex-row md:items-center md:justify-between'>
+        <div className='flex items-center gap-3'>
+          <button
+            type='button'
+            onClick={() => onMenuClick?.()}
+            className='inline-flex h-10 w-10 items-center justify-center rounded-xl border border-zinc-800 bg-zinc-950 text-zinc-400 transition-colors hover:border-emerald-500/50 hover:text-white md:hidden'
+            aria-label='Open sidebar menu'
+          >
+            <Menu size={18} />
+          </button>
 
-      <div className='flex items-center gap-8'>
+          {/* Search */}
+          <div className='flex min-w-0 flex-1 items-center border border-zinc-800 bg-zinc-950 px-4 py-2 transition-colors focus-within:border-emerald-500 md:w-[340px] md:flex-none lg:w-[420px]'>
+            <Search size={14} className='text-zinc-500' />
+            <input
+              className='ml-3 w-full bg-transparent text-xs font-mono uppercase tracking-widest text-zinc-300 outline-none placeholder:text-zinc-700'
+              placeholder='SEARCH_SYSTEM...'
+            />
+          </div>
+        </div>
 
+        <div className='flex items-center justify-between gap-4 md:justify-end md:gap-6'>
+          {/* Notifications */}
+          <button className='relative inline-flex h-10 w-10 items-center justify-center rounded-xl border border-zinc-800 bg-zinc-950 text-zinc-500 transition-colors hover:border-zinc-700 hover:text-white'>
+            <Bell size={18} />
+            <span className='absolute right-2 top-2 flex h-2 w-2'>
+              <span className='absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75' />
+              <span className='relative inline-flex h-2 w-2 rounded-full bg-emerald-500' />
+            </span>
+          </button>
 
-        {/* Notifications */}
-        <button className='text-zinc-500 hover:text-white transition-colors relative'>
-          <Bell size={18} />
-          <span className='absolute -top-1 -right-1 flex h-2 w-2'>
-            <span className='animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75' />
-            <span className='relative inline-flex rounded-full h-2 w-2 bg-emerald-500' />
-          </span>
-        </button>
-
-        {/* Profile */}
-        <div
-          ref={dropdownRef}
-          className='flex items-center gap-4 pl-8 border-l border-zinc-900 relative'
-        >
+          {/* Profile */}
+          <div
+            ref={dropdownRef}
+            className='relative flex items-center gap-3 border-zinc-900 md:border-l md:pl-6'
+          >
           {/* Name + ID */}
-          <div className='text-right'>
-            <p className='text-[10px] font-bold text-white uppercase tracking-tighter'>
+          <div className='hidden text-right sm:block'>
+            <p className='text-[10px] font-bold uppercase tracking-tighter text-white'>
               {user?.full_name || user?.email?.split('@')[0] || 'User'}
             </p>
-            <p className='text-[9px] text-zinc-600 font-mono'>
+            <p className='font-mono text-[9px] text-zinc-600'>
               ID: {user ? shortId(user.id) : '...'}
             </p>
           </div>
@@ -98,7 +108,7 @@ export default function Topbar () {
           {/* Icon button */}
           <div
             onClick={() => setOpen(prev => !prev)}
-            className={`w-8 h-8 rounded-sm bg-zinc-900 border flex items-center justify-center cursor-pointer transition-all
+            className={`flex h-9 w-9 cursor-pointer items-center justify-center rounded-xl border bg-zinc-900 transition-all
               ${
                 open
                   ? 'border-emerald-500 text-emerald-500'
@@ -110,7 +120,7 @@ export default function Topbar () {
 
           {/* Dropdown */}
           {open && (
-            <div className='absolute top-[calc(100%+10px)] right-0 w-56 bg-zinc-950 border border-zinc-800 z-50 overflow-hidden'>
+            <div className='absolute right-0 top-[calc(100%+10px)] z-50 w-56 overflow-hidden border border-zinc-800 bg-zinc-950'>
               {/* Header */}
               <div className='p-3 border-b border-zinc-900'>
                 {user ? (
@@ -178,6 +188,7 @@ export default function Topbar () {
               </div>
             </div>
           )}
+          </div>
         </div>
       </div>
     </div>

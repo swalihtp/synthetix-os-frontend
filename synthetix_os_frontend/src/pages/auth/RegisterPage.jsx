@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import { Eye, EyeOff, ArrowRight, ShieldCheck } from 'lucide-react'
 import { registerUser } from '../../api/auth'
 import logo from '../../assets/gemini-svg.svg'
@@ -82,7 +83,9 @@ export default function RegisterPage () {
         {/* Mobile logo */}
         <div className='lg:hidden absolute top-8 left-8 flex items-center gap-3'>
           <img src={logo} alt='Logo' className='h-8 w-8' />
-          <span className='text-lg font-bold text-emerald-500'>Synthetix OS</span>
+          <span className='text-lg font-bold text-emerald-500'>
+            Synthetix OS
+          </span>
         </div>
 
         <div className='w-full max-w-md rounded-[20px] p-10 flex flex-col gap-8 bg-[#1a221a]/70 backdrop-blur-2xl border border-[#869585]/20 shadow-[0_0_40px_rgba(0,0,0,0.4)]'>
@@ -181,12 +184,12 @@ export default function RegisterPage () {
           <div className='text-center'>
             <p className='text-sm text-[#bccbb9]'>
               Already have an identity?{' '}
-              <a
-                href='#'
+              <Link
+                to='/login'
                 className='text-[#04bb38] font-semibold hover:underline decoration-[#4be277]/30 underline-offset-4 ml-1'
               >
                 Sign in
-              </a>
+              </Link>
             </p>
           </div>
         </div>

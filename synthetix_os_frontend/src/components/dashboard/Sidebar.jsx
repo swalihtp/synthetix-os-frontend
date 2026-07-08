@@ -5,15 +5,15 @@ import {
   Workflow,
   Menu,
   ChevronLeft,
+  X,
   Brain,
   UserCog,
-  UserCircle,
   UserCircleIcon
 } from 'lucide-react'
 
 import { useLocation, useNavigate } from 'react-router-dom'
 
-export default function Sidebar () {
+export default function Sidebar ({ isMobileOpen = false, onMobileClose }) {
   const location = useLocation()
   const navigate = useNavigate()
 
@@ -61,83 +61,78 @@ export default function Sidebar () {
     }
   ]
 
+  const handleNavigate = path => {
+    navigate(path)
+    if (onMobileClose) onMobileClose()
+  }
+
   return (
     <div
       className={`
-        min-h-screen
-        bg-black
-        text-white
-        border-r
-        border-neutral-800
-        p-3
-        flex
-        flex-col
-        transition-[width]
-        duration-300
-        ease-in-out
-        ${isExpanded ? 'w-64' : 'w-20'}
+        fixed inset-y-0 left-0 z-50 flex min-h-screen flex-col border-r border-neutral-800 bg-black p-3 text-white shadow-2xl transition-transform duration-300 ease-in-out lg:static lg:z-auto lg:shadow-none
+        ${isMobileOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
+        w-72 ${isExpanded ? 'lg:w-64' : 'lg:w-20'}
       `}
     >
       {/* Header */}
-      <div className='flex items-center justify-between mb-8'>
+      <div className='mb-8 flex items-center justify-between'>
         {/* Logo */}
         <div
           className={`
-            overflow-hidden
-            whitespace-nowrap
-            transition-all
-            duration-300
+            overflow-hidden whitespace-nowrap transition-all duration-300
             ${isExpanded ? 'opacity-100 w-auto' : 'opacity-0 w-0'}
           `}
         >
           <h1 className='text-xl font-semibold'>Synthetix OS</h1>
         </div>
 
-        {/* Toggle */}
-        <button
-          onClick={() => setIsExpanded(prev => !prev)}
-          className='p-2 hover:bg-neutral-800 rounded-lg transition-colors shrink-0'
-        >
-          {isExpanded ? <ChevronLeft size={20} /> : <Menu size={20} />}
-        </button>
+        <div className='flex items-center gap-2'>
+          <button
+            type='button'
+            onClick={onMobileClose}
+            className='rounded-lg p-2 text-zinc-400 transition-colors hover:bg-neutral-800 hover:text-white lg:hidden'
+            aria-label='Close sidebar'
+          >
+            <X size={20} />
+          </button>
+
+          {/* Toggle */}
+          <button
+            type='button'
+            onClick={() => setIsExpanded(prev => !prev)}
+            className='shrink-0 rounded-lg p-2 transition-colors hover:bg-neutral-800'
+          >
+            {isExpanded ? <ChevronLeft size={20} /> : <Menu size={20} />}
+          </button>
+        </div>
       </div>
 
       {/* Menu */}
-      <ul className='space-y-2'>
+      <ul className='space-y-2 overflow-y-auto pr-1'>
         {menu.map(item => {
           const isActive = location.pathname === item.path
 
           return (
             <li
               key={item.name}
-              onClick={() => navigate(item.path)}
+              onClick={() => handleNavigate(item.path)}
               className={`
-                h-11
-                rounded-xl
-                cursor-pointer
-                flex
-                items-center
-                overflow-hidden
-                transition-all
-                duration-200
+                flex h-11 cursor-pointer items-center overflow-hidden rounded-xl
+                transition-all duration-200
                 ${
                   isActive
                     ? 'bg-white text-black'
                     : 'text-white hover:bg-neutral-800'
                 }
-                ${isExpanded ? 'px-3 gap-3 justify-start' : 'justify-center'}
+                ${isExpanded ? 'justify-start gap-3 px-3' : 'justify-center'}
               `}
             >
               <div className='shrink-0'>{item.icon}</div>
 
               <span
                 className={`
-                  whitespace-nowrap
-                  overflow-hidden
-                  transition-all
-                  duration-300
-                  text-sm
-                  ${isExpanded ? 'opacity-100 w-auto' : 'opacity-0 w-0'}
+                  overflow-hidden whitespace-nowrap text-sm transition-all duration-300
+                  ${isExpanded ? 'w-auto opacity-100' : 'w-0 opacity-0'}
                 `}
               >
                 {item.name}

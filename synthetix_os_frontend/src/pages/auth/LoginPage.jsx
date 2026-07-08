@@ -8,7 +8,8 @@ import {
   fetchUserProfile,
   selectUser
 } from '../../store/slices/authSlice'
-import { ShieldCheck, Terminal } from 'lucide-react'
+import { Terminal } from 'lucide-react'
+import { Link } from 'react-router-dom'
 
 function LoginPage () {
   const dispatch = useDispatch()
@@ -122,18 +123,18 @@ function LoginPage () {
         </form>
 
         <div className='mt-8 flex justify-between border-t border-zinc-900 pt-6'>
-          <a
-            href='/recover-password'
+          <Link
+            to='/recover-password'
             className='text-[9px] text-zinc-600 uppercase hover:text-zinc-400 transition tracking-widest'
           >
             _forgot_pass
-          </a>
-          <a
-            href='/register'
+          </Link>
+          <Link
+            to='/register'
             className='text-[9px] text-zinc-600 uppercase hover:text-zinc-400 transition tracking-widest'
           >
             _create_account
-          </a>
+          </Link>
         </div>
       </div>
     </div>

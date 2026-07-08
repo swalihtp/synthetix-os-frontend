@@ -95,6 +95,9 @@ export const verifyMFAAfterEnablingAndAfterFirstLogout = data => {
 export const enableMFA = () => {
   return API.post('auth/mfa/enable/')
 }
+export const disableMFA = data => {
+  return API.post('auth/mfa/disable/', data)
+}
 
 export const getMyProfile = () => {
   return API.get('auth/me/')

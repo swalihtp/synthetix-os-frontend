@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'
 import Sidebar from '@/components/dashboard/Sidebar'
 import Topbar from '@/components/dashboard/Topbar'
 
@@ -14,6 +15,17 @@ import DashboardSkeleton from './components/DashboardSkeleton'
 
 export default function Dashboard () {
   const { dashboard, loading, error, refresh } = useDashboard()
+  const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false)
+
+  useEffect(() => {
+    if (!isMobileSidebarOpen) return
+
+    document.body.style.overflow = 'hidden'
+
+    return () => {
+      document.body.style.overflow = ''
+    }
+  }, [isMobileSidebarOpen])
 
   if (loading && !dashboard && !error) {
     return <DashboardSkeleton />
@@ -41,10 +53,22 @@ export default function Dashboard () {
       <div className='relative flex min-h-screen overflow-hidden bg-[#09090b] text-zinc-100 selection:bg-emerald-500 selection:text-black'>
         <div className='pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(16,185,129,0.16),_transparent_30%),radial-gradient(circle_at_top_right,_rgba(59,130,246,0.15),_transparent_24%),radial-gradient(circle_at_bottom_right,_rgba(244,114,182,0.09),_transparent_28%)]' />
 
-        <Sidebar />
+        {isMobileSidebarOpen && (
+          <button
+            type='button'
+            className='fixed inset-0 z-40 bg-black/60 backdrop-blur-[2px] lg:hidden'
+            aria-label='Close sidebar overlay'
+            onClick={() => setIsMobileSidebarOpen(false)}
+          />
+        )}
+
+        <Sidebar
+          isMobileOpen={isMobileSidebarOpen}
+          onMobileClose={() => setIsMobileSidebarOpen(false)}
+        />
 
         <div className='relative z-10 flex min-w-0 flex-1 flex-col'>
-          <Topbar />
+          <Topbar onMenuClick={() => setIsMobileSidebarOpen(true)} />
 
           <main className='mx-auto w-full max-w-[1400px] flex-1 space-y-8 px-4 py-6 sm:px-6 lg:px-8 lg:py-8'>
             {error && (
